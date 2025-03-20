@@ -1,3 +1,11 @@
+function createPlayer(value) {
+    return {value};
+}
+
+Player1 = createPlayer("X");
+Player2 = createPlayer("O");
+
+
 const GameController = (function() {
     const board = [
     ["", "", ""], 
@@ -20,7 +28,7 @@ const GameController = (function() {
         if(board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[0][0] != "") {
             return true;
         }
-        if(board[0][2] == board[1][1] && board[1][1] == board[2][0] && board[0][0] != "") {
+        if(board[0][2] == board[1][1] && board[1][1] == board[2][0] && board[0][2] != "") {
             return true;
         }
         return false;
@@ -43,6 +51,9 @@ const GameController = (function() {
         }
     }
     const isLegalMove = function(row, col) {
+        if(isNaN(row) == true || isNaN(col) == true) {
+            return false;
+        }
         if(row > 2 || row < 0) {
             return false;
         }
@@ -56,57 +67,44 @@ const GameController = (function() {
             return false;
         }
     }
-    return {board, makeMove, checkWin, checkTie, clearBoard, isLegalMove};
+    const playRound = function() {
+        let X = Player1.value;
+        let O = Player2.value;
+        while(checkWin() == false && checkTie() == false) {
+            let row = parseInt(prompt("Row: "));
+            let col = parseInt(prompt("Col: "));
+            while(isLegalMove(row, col) == false) {
+                row = parseInt(prompt("Please select a valid row: "));
+                col = parseInt(prompt("Please select a valid column: "));
+            }
+            makeMove(row, col, X);
+            if(checkWin() == true) {
+                console.log("Tie");
+                break;
+            }
+            else if(checkTie() == true) {
+                console.log("X has won");
+                break;
+            }
+            row = prompt("Row: ");
+            col = prompt("Col: ");
+            while(isLegalMove(row, col) == false) {
+                row = parseInt(prompt("Please select a valid row: "));
+                col = parseInt(prompt("Please select a valid column: "));
+            }
+            makeMove(row, col, O);
+            if(checkTie() == true) {
+                console.log("Tie");
+                break;
+            }
+            else if(checkWin() == true) {
+                console.log("O has won");
+                break;
+            }
+        }
+        clearBoard();
+    }
+    return {board, makeMove, checkWin, checkTie, clearBoard, isLegalMove, playRound};
 }) ();
 
-
-function createPlayer(value) {
-    return {value};
-}
-
-Player1 = createPlayer("X");
-Player2 = createPlayer("O");
-
-
-// Note: after it is working, I should try to put this function inside of the GameController to further encapsulate my code,
-// I should have that be the playRound() function. 
-function startGame() {
-    let X = Player1.value;
-    let O = Player2.value;
-    while(GameController.checkWin() == false && GameController.checkTie() == false) {
-        let row = parseInt(prompt("Row: "));
-        let col = parseInt(prompt("Col: "));
-        while(GameController.isLegalMove(row, col) == false) {
-            row = parseInt(prompt("Please select a valid row: "));
-            col = parseInt(prompt("Please select a valid column: "));
-        }
-        GameController.makeMove(row, col, X);
-        if(GameController.checkWin() == true) {
-            console.log("Tie");
-            break;
-        }
-        else if(GameController.checkTie() == true) {
-            console.log("X has won");
-            break;
-        }
-        console.log(GameController.board);
-        row = prompt("Row: ");
-        col = prompt("Col: ");
-        while(GameController.isLegalMove(row, col) == false) {
-            row = parseInt(prompt("Please select a valid row: "));
-            col = parseInt(prompt("Please select a valid column: "));
-        }
-        GameController.makeMove(row, col, O);
-        if(GameController.checkTie() == true) {
-            console.log("Tie");
-            break;
-        }
-        else if(GameController.checkWin() == true) {
-            console.log("O has won");
-            break;
-        }
-    }
-    GameController.clearBoard();
-}
-
-startGame();
+GameController.playRound();
