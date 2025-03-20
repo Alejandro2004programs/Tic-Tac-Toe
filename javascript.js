@@ -8,9 +8,9 @@ Player2 = createPlayer("O");
 
 const GameController = (function() {
     const board = [
-    ["X", "O", "X"], 
-    ["", "X", ""],
-    ["", "", "X"]
+    ["", "", ""], 
+    ["", "", ""],
+    ["", "", ""]
     ];
     const makeMove = function(row, column, value) {
         board[row][column] = value;
@@ -107,9 +107,12 @@ const GameController = (function() {
     return {board, makeMove, checkWin, checkTie, clearBoard, isLegalMove, playRound};
 }) ();
 
-// GameController.playRound();
 
 const displayGame = (function() {
+    let turn = 1;
+    const nextTurn = function() {
+        turn++;
+    }
     const renderContents = function() {
         const gameContainer = document.querySelector(".gameContainer");
         for(let i = 0; i < 3; i++) {
@@ -124,7 +127,24 @@ const displayGame = (function() {
             }
         }
     }
-    return {renderContents};
+    const addClickEvents = function() {
+        const squares = document.querySelectorAll(".square");
+        squares.forEach((square) => {
+            square.addEventListener("click", () => {
+                if(square.textContent == "" && (turn % 2) == 1) {
+                    square.textContent = "X";
+                    turn++;
+                }
+                else if(square.textContent == "" && (turn % 2) == 0) {
+                    square.textContent = "O";
+                    turn++;
+                }
+            });
+        });
+    }
+    return {renderContents, addClickEvents, nextTurn};
 }) ();
 
+// GameController.playRound();
 displayGame.renderContents();
+displayGame.addClickEvents();
