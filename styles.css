@@ -23,9 +23,29 @@ body {
 }
 
 .gameContainer {
+    display: flex;
+    flex-direction: column;
     width: 450px;
     height: 450px;
     border: 2px solid black;
+}
+
+.displayRow {
+    display: flex;
+}
+
+.square {
+    border: 2px solid black;
+    height: 150px;
+    width: 150px;
+    font-size: 128px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.square:hover {
+    cursor: pointer;
 }
 
 
