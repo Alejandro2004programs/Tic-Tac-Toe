@@ -45,7 +45,7 @@ const GameController = (function() {
     const clearBoard = function() {
         for(let i = 0; i < 3; i++) {
             for(let j = 0; j < 3; j++) {
-                board[i][j] == "";
+                board[i][j] = "";
             }
         }
     }
@@ -132,11 +132,24 @@ const displayGame = (function() {
                 }   
             });
         });
-
     }
-    return {renderContents, addClickEvents, nextTurn};
+    const addRestartEvent = function() {
+        const restartButton = document.querySelector(".restartButton");
+        const gameStatus = document.querySelector(".gameStatusText");
+        const squares = document.querySelectorAll(".square");
+        restartButton.addEventListener("click", () => {
+            squares.forEach((square) => {
+            square.textContent = "";
+            });
+            turn = 1;
+            gameStatus.textContent = "X to move";
+            addClickEvents();
+            GameController.clearBoard();
+        });
+    }
+    return {renderContents, addClickEvents, nextTurn, addRestartEvent};
 }) ();
 
-// GameController.playRound();
 displayGame.renderContents();
 displayGame.addClickEvents();
+displayGame.addRestartEvent();
