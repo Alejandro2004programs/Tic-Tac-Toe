@@ -143,7 +143,6 @@ const displayGame = (function() {
             });
             turn = 1;
             gameStatus.textContent = "X to move";
-            addClickEvents();
             GameController.clearBoard();
         });
     }

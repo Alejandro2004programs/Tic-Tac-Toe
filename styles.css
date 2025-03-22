@@ -15,10 +15,11 @@ body {
     font-size: 24px;
     font-family: Verdana, Arial, sans-serif;
     height: 700px;
+    background-color: gray;
 }
 
 .title {
-    font-size: 32px;
+    font-size: 48px;
     font-weight: 700;
 }
 
@@ -44,14 +45,24 @@ body {
     align-items: center;
 }
 
+.gameContainer {
+
+}
+
+.gameStatusText {
+    font-size: 32px;
+}
+
 .square:hover {
     cursor: pointer;
 }
 
 .restartButton {
-    font-size: 24px;
+    font-size: 32px;
     padding: 8px 16px;
     border-radius: 16px;
+    background-color: gray;
+    border: 2px solid black
 }
 
 .restartButton:hover {
